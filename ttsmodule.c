@@ -1,5 +1,4 @@
 #include <Python.h>
-#include <stdio.h>
 #include <assert.h>
 #include "tts_engine.h"
 

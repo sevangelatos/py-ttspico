@@ -30,6 +30,7 @@ setup(name='python-tts',
       include_package_data=True,
       zip_safe=False,
       ext_modules = [extLevensthein],
+      py_modules=['tts'],
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-

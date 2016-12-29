@@ -7,8 +7,8 @@ from distutils.core import Extension
 #/usr/share/pico/lang/
 version = '0.10.2'
 
-extLevensthein = Extension('tts',
-                           sources = ['ttsmodule.c', '../tts/tts_engine.c'],
+extLevensthein = Extension('ctts',
+                           sources = ['cttsmodule.c', '../tts/tts_engine.c'],
                            libraries=['svoxpico'],
                            )
 
@@ -25,7 +25,7 @@ setup(name='python-tts',
       keywords='speech text-to-speech svox',
       author='Spiros Evangelatos',
       author_email='sevangelatos@gmail.com',
-      url='http://github.com/sevangelatos/TODO',
+      url='http://github.com/sevangelatos/picopy',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=[],

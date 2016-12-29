@@ -8,7 +8,7 @@ static bool tts_callback(void *user, uint32_t rate, uint32_t format, int channel
 // Unwrap the engine and destroy it
 void engine_destroy(PyObject *engine_capsule)
 {
-    TtsEngine_Destroy((TTS_Engine *)PyCapsule_GetPointer(engine_capsule, engine_name));
+    TtsEngine_Destroy((TTS_Engine *) PyCapsule_GetPointer(engine_capsule, engine_name));
 }
 
 // Create engine and wrap it in capsule
@@ -31,7 +31,7 @@ static PyObject *engine_create(PyObject *self, PyObject *args, PyObject *kw)
 // Helper function to unwrap engine handle from capsule
 static TTS_Engine *get_engine(PyObject *engine_capsule)
 {
-    TTS_Engine *engine = (TTS_Engine *)PyCapsule_GetPointer(engine_capsule, engine_name);
+    TTS_Engine *engine = (TTS_Engine *) PyCapsule_GetPointer(engine_capsule, engine_name);
     if (!engine) {
         PyErr_SetString(PyExc_TypeError, "Invalid engine handle");
     }
@@ -60,7 +60,7 @@ static PyObject *engine_set_property(PyObject *self, PyObject *args, PyObject *k
     }
 
     // Error, no such property
-    PyErr_SetString(PyExc_NotImplementedError, "Property does not exist");
+    PyErr_SetString(PyExc_NotImplementedError, "Setting property not implemented");
     return NULL;
 }
 
@@ -80,6 +80,8 @@ static PyObject *engine_get_property(PyObject *self, PyObject *args, PyObject *k
         return Py_BuildValue("i", TtsEngine_GetPitch(engine));
     } else if (strcmp(property_name, "rate") == 0) {
         return Py_BuildValue("i", TtsEngine_GetRate(engine));
+    } else if (strcmp(property_name, "format") == 0) {
+        return Py_BuildValue("(iii)", 16000, 16, 1);
     }
 
     // Error, no such property
@@ -172,7 +174,7 @@ static PyMethodDef TtsMethods[] = {
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
-PyMODINIT_FUNC inittts(void)
+PyMODINIT_FUNC initctts(void)
 {
-    (void)Py_InitModule("tts", TtsMethods);
+    (void)Py_InitModule("ctts", TtsMethods);
 }

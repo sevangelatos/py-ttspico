@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-import tts
+import ctts
+import sys
+outfile = open("/tmp/hello.raw", "wb")
 def cb(format, data, fin):
     print format, len(data), fin
-    open("hello.raw", "ab").write(data)
+    outfile.write(data)
 
-e = tts.engine_create()
-tts.engine_set_property(e, "pitch", 150)
-tts.engine_speak(e, "This is a test.", cb)
-del e
+e = ctts.engine_create()
+ctts.engine_set_property(e, "pitch", 100)
+ctts.engine_speak(e, "This is a test.", cb)

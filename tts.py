@@ -98,10 +98,10 @@ def tts_engine_test():
     """
     Run a small test
     """
-    engine = TtsEngine('en-GB')
+    engine = TtsEngine('en-US')
     audio = engine.speak("The rain in Spain stays mainly in the plain.")
-    with open("/tmp/spain.raw", "wb") as f:
-        f.write(audio)
+    with open("/tmp/spain.raw", "wb") as outfile:
+        outfile.write(audio)
 
 if __name__ == "__main__":
     tts_engine_test()

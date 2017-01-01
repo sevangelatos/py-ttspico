@@ -75,6 +75,19 @@ class TtsEngine(object):
         if i != value:
             raise ValueError("Requested pitch is beyond the acceptable limits")
 
+    @property
+    def volume(self):
+        """
+        Get/Set voice volume.
+        """
+        return self.get_property("volume")
+
+    @volume.setter
+    def volume(self, value):
+        i = self.set_property("volume", value)
+        if i != value:
+            raise ValueError("Requested volume is beyond the acceptable limits")
+
     def set_property(self, property_name, value):
         """
         Set an engine property. Returns the effective property value.

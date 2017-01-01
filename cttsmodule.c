@@ -57,6 +57,9 @@ static PyObject *engine_set_property(PyObject *self, PyObject *args, PyObject *k
     } else if (strcmp(property_name, "rate") == 0) {
         value = TtsEngine_SetRate(engine, value);
         return Py_BuildValue("i", value);
+    } else if (strcmp(property_name, "volume") == 0) {
+        value = TtsEngine_SetVolume(engine, value);
+        return Py_BuildValue("i", value);
     }
 
     // Error, no such property
@@ -80,6 +83,8 @@ static PyObject *engine_get_property(PyObject *self, PyObject *args, PyObject *k
         return Py_BuildValue("i", TtsEngine_GetPitch(engine));
     } else if (strcmp(property_name, "rate") == 0) {
         return Py_BuildValue("i", TtsEngine_GetRate(engine));
+    } else if (strcmp(property_name, "volume") == 0) {
+        return Py_BuildValue("i", TtsEngine_GetVolume(engine));
     } else if (strcmp(property_name, "format") == 0) {
         return Py_BuildValue("(iii)", 16000, 16, 1);
     }

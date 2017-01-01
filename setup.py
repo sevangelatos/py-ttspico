@@ -4,7 +4,7 @@ import os
 
 from distutils.core import Extension
 
-version = '0.2'
+version = '0.3'
 
 extLevensthein = Extension('ctts',
                            sources = ['cttsmodule.c', '../tts/tts_engine.c'],

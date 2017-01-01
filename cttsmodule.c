@@ -166,11 +166,28 @@ static PyObject *engine_speak(PyObject *self, PyObject *args, PyObject *kw)
     return Py_None;
 }
 
+
+static PyObject *engine_stop(PyObject *self, PyObject *args)
+{
+    PyObject *engine_capsule = NULL;
+
+    PyArg_ParseTuple(args, "O:engine_stop", &engine_capsule);
+    TTS_Engine *engine = get_engine(engine_capsule);
+    if (!engine) {
+        return NULL;
+    }
+
+    TtsEngine_Stop(engine);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef TtsMethods[] = {
     {"engine_create", (PyCFunction)engine_create, METH_VARARGS | METH_KEYWORDS, "Create TTS engine"},
     {"engine_set_property", (PyCFunction)engine_set_property, METH_VARARGS | METH_KEYWORDS, "Change engine properties"},
     {"engine_get_property", (PyCFunction)engine_get_property, METH_VARARGS | METH_KEYWORDS, "Read engine properties"},
     {"engine_speak", (PyCFunction)engine_speak, METH_VARARGS | METH_KEYWORDS, "Synthesize speech"},
+    {"engine_stop", engine_stop, METH_VARARGS, "Interrupt speech synthesis"},
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 

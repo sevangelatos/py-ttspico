@@ -88,7 +88,10 @@ class TtsEngine(object):
         return ctts.engine_get_property(self.__e, property_name)
 
     def stop(self):
-        raise NotImplemented("Implement me!") # TODO implement this
+        """
+        Stop speech synthesis.
+        """
+        return ctts.engine_stop(self.__e)
 
 
 def tts_engine_test():

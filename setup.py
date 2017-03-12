@@ -6,10 +6,9 @@ from distutils.core import Extension
 
 version = '0.3'
 
-extLevensthein = Extension('ctts',
-                           sources = ['cttsmodule.c', '../tts/tts_engine.c'],
-                           libraries=['svoxpico'],
-                           )
+ext_ctts = Extension('ctts',
+	sources = ['cttsmodule.c', '../tts/tts_engine.c'],
+    libraries=['svoxpico'])
 
 setup(name='python-tts',
       version=version,
@@ -18,6 +17,12 @@ setup(name='python-tts',
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Programming Language :: Python",
+		"Development Status :: 3 - Alpha",
+		"Topic :: Multimedia :: Sound/Audio :: Speech",
+		"Environment :: Console",
+		"Intended Audience :: Developers",
+		"Operating System :: POSIX",
+		"License :: OSI Approved :: Apache Software License"
         ],
       include_dirs = ['../tts/'],
       keywords='speech text-to-speech svox',
@@ -29,7 +34,7 @@ setup(name='python-tts',
       namespace_packages=[],
       include_package_data=True,
       zip_safe=False,
-      ext_modules = [extLevensthein],
+      ext_modules = [ext_ctts],
       py_modules=['tts'],
       install_requires=[
           'setuptools',

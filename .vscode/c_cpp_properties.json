@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "Mac",
-            "includePath": ["/usr/include", "/home/spirux/Development/tts/picopi/pico/tts"],
+            "includePath": ["/usr/include", "/home/spirux/Development/picopi/py-ttspico/picopi/pico/tts"],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""
@@ -10,7 +10,7 @@
         },
         {
             "name": "Linux",
-            "includePath": ["/usr/include", "/home/spirux/Development/tts/picopi/pico/tts"],
+            "includePath": ["/usr/include", "/home/spirux/Development/picopi/py-ttspico/picopi/pico/tts"],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""

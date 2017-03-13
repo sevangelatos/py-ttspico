@@ -33,5 +33,5 @@ limitations under the License.
 Source code
 -----------
 
-* https://github.com/sevangelatos/picopi
+* https://github.com/sevangelatos/py-ttspico
 

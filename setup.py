@@ -6,9 +6,19 @@ from distutils.core import Extension
 
 version = '0.3'
 
-ext_ctts = Extension('ctts',
-	sources = ['cttsmodule.c', '../tts/tts_engine.c'],
-    libraries=['svoxpico'])
+lang_dir = 'picopi/pico/lang'
+lang_files = [os.path.join(lang_dir, f) for f in 
+    os.listdir(lang_dir) if f.endswith(".bin")]
+
+pico_src_dir = 'picopi/pico/lib'
+source_files = [os.path.join(pico_src_dir, f) for f in 
+    os.listdir(pico_src_dir) if f.endswith(".c")]
+
+source_files += ['cttsmodule.c', 
+'picopi/pico/tts/tts_engine.c', 
+'picopi/pico/tts/langfiles.c']
+
+ext_ctts = Extension('ctts', sources = source_files)
 
 setup(name='python-tts',
       version=version,
@@ -24,7 +34,7 @@ setup(name='python-tts',
 		"Operating System :: POSIX",
 		"License :: OSI Approved :: Apache Software License"
         ],
-      include_dirs = ['../tts/'],
+      include_dirs = ['picopi/pico/tts/'],
       keywords='speech text-to-speech svox',
       author='Spiros Evangelatos',
       author_email='sevangelatos@gmail.com',
@@ -43,4 +53,5 @@ setup(name='python-tts',
       entry_points="""
       # -*- Entry points: -*-
       """,
+      data_files=[('languages', lang_files)]
       )

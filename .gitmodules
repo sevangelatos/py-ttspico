@@ -1,0 +1,3 @@
+[submodule "picopi"]
+	path = picopi
+	url = https://github.com/sevangelatos/picopi.git

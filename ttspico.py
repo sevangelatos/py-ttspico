@@ -3,6 +3,10 @@
 Text to speech based on svox pico tts.
 """
 import ctts
+import os
+
+_LANG_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "languages")
+
 
 class TtsEngine(object):
     """
@@ -16,13 +20,15 @@ class TtsEngine(object):
         lang_dir: An optional language directory where the requested language 
         definition files can be found.
         """
-        lang_dirs = [lang_dir, "/usr/share/pico/lang/"]
+        lang_dirs = ["/usr/share/pico/lang/", _LANG_DIR]
+        if lang_dir:
+            lang_dirs.insert(0, lang_dir)
+
         self.__e = None
         for ldir in lang_dirs:
             try:
                 self.__e = ctts.engine_create(language_dir=ldir, language=language)
             except RuntimeError as ex:
-                print ex
                 pass # Try next directory to find language...
             if self.__e:
                 break

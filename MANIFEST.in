@@ -1,8 +1,4 @@
 include README.rst
-global-exclude *pyc
-global-exclude .project
-global-exclude .pydevproject
-global-exclude *~
 graft picopi/pico/lib
 include picopi/pico/tts/*.h
-
+include picopi/pico/lang/*.bin

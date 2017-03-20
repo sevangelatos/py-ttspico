@@ -4,7 +4,7 @@ import os
 from distutils.core import Extension
 from os.path import join
 
-version = '0.3'
+version = '0.1'
 
 lang_dir = join('picopi', 'pico', 'lang')
 lang_files = [os.path.join(lang_dir, f) for f in 
@@ -20,7 +20,7 @@ source_files += ['cttsmodule.c',
 
 ext_ctts = Extension('ctts', sources = source_files)
 
-setup(name='python-tts',
+setup(name='ttspico',
       version=version,
       description="Python simple text to speech module.",
       long_description=open("README.rst").read(),
@@ -46,7 +46,7 @@ setup(name='python-tts',
       include_package_data=True,
       zip_safe=False,
       ext_modules = [ext_ctts],
-      py_modules=['tts'],
+      py_modules=['ttspico'],
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-

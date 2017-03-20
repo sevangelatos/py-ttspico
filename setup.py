@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 import os
-
 from distutils.core import Extension
+from os.path import join
 
 version = '0.3'
 
-lang_dir = 'picopi/pico/lang'
+lang_dir = join('picopi', 'pico', 'lang')
 lang_files = [os.path.join(lang_dir, f) for f in 
     os.listdir(lang_dir) if f.endswith(".bin")]
 
-pico_src_dir = 'picopi/pico/lib'
+pico_src_dir = join('picopi', 'pico', 'lib')
 source_files = [os.path.join(pico_src_dir, f) for f in 
     os.listdir(pico_src_dir) if f.endswith(".c")]
 
@@ -34,7 +34,7 @@ setup(name='python-tts',
 		"Operating System :: POSIX",
 		"License :: OSI Approved :: Apache Software License"
         ],
-      include_dirs = ['picopi/pico/tts/'],
+      include_dirs = ['picopi/pico/tts/', pico_src_dir],
       keywords='speech text-to-speech svox',
       author='Spiros Evangelatos',
       author_email='sevangelatos@gmail.com',

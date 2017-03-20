@@ -16,9 +16,10 @@ static PyObject *engine_create(PyObject *self, PyObject *args, PyObject *kw)
 {
     char *lang_dir = "/usr/share/pico/lang/", *language = "en-GB";
     static char *kwlist[] = {"language", "language_dir", NULL};
+    TTS_Engine *engine = NULL;
 
     PyArg_ParseTupleAndKeywords(args, kw, "|ss:engine_create", kwlist, &language, &lang_dir);
-    TTS_Engine *engine = TtsEngine_Create(lang_dir, language, tts_callback);
+    engine = TtsEngine_Create(lang_dir, language, tts_callback);
 
     if (!engine) {
         PyErr_SetString(PyExc_RuntimeError, "Could not initialize engine with the specified language");
@@ -45,8 +46,9 @@ static PyObject *engine_set_property(PyObject *self, PyObject *args, PyObject *k
     const char *property_name = "";
     int value = 0;
     static char *kwlist[] = {"engine", "property", "value", NULL};
+    TTS_Engine *engine = NULL;
     PyArg_ParseTupleAndKeywords(args, kw, "Osi:engine_set_property", kwlist, &engine_capsule, &property_name, &value);
-    TTS_Engine *engine = get_engine(engine_capsule);
+    engine = get_engine(engine_capsule);
     if (!engine) {
         return NULL;
     }
@@ -73,8 +75,9 @@ static PyObject *engine_get_property(PyObject *self, PyObject *args, PyObject *k
     PyObject *engine_capsule = NULL;
     const char *property_name = "";
     static char *kwlist[] = {"engine", "property", NULL};
+    TTS_Engine *engine = NULL;
     PyArg_ParseTupleAndKeywords(args, kw, "Os:engine_get_property", kwlist, &engine_capsule, &property_name);
-    TTS_Engine *engine = get_engine(engine_capsule);
+    engine = get_engine(engine_capsule);
     if (!engine) {
         return NULL;
     }
@@ -102,10 +105,10 @@ typedef struct {
 static bool tts_callback(void *user, uint32_t rate, uint32_t format, int channels, uint8_t *audio, uint32_t audio_bytes, bool final)
 {
     CbContext *cb = (CbContext *)user;
+	bool keep_going = false;
     assert(cb);
     assert(cb->py_callback);
     assert(cb->thread_save);
-    bool keep_going = false;
 
     PyEval_RestoreThread(cb->thread_save); // Acquire GIL to run callback
 
@@ -135,10 +138,11 @@ static PyObject *engine_speak(PyObject *self, PyObject *args, PyObject *kw)
     PyObject *callback, *engine_capsule;
     const char *text;
     bool ok;
+    TTS_Engine *engine = NULL;
 
     static char *kwlist[] = {"engine", "text", "callback", NULL};
     PyArg_ParseTupleAndKeywords(args, kw, "OsO:engine_speak", kwlist, &engine_capsule, &text, &callback);
-    TTS_Engine *engine = get_engine(engine_capsule);
+    engine = get_engine(engine_capsule);
     if (!engine) {
         return NULL;
     }
@@ -175,9 +179,9 @@ static PyObject *engine_speak(PyObject *self, PyObject *args, PyObject *kw)
 static PyObject *engine_stop(PyObject *self, PyObject *args)
 {
     PyObject *engine_capsule = NULL;
-
+    TTS_Engine *engine = NULL;
     PyArg_ParseTuple(args, "O:engine_stop", &engine_capsule);
-    TTS_Engine *engine = get_engine(engine_capsule);
+    engine = get_engine(engine_capsule);
     if (!engine) {
         return NULL;
     }

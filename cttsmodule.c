@@ -117,7 +117,7 @@ static bool tts_callback(void *user, uint32_t rate, uint32_t format, int channel
         int r = rate, f = format;
         char *data = (char *)audio;
         int len = audio_bytes, fin = final;
-        PyObject *ret = PyObject_CallFunction(cb->py_callback, "(iii)s#i", r, f, channels, data, len, fin);
+        PyObject *ret = PyObject_CallFunction(cb->py_callback, "(iii)y#i", r, f, channels, data, len, fin);
         if (ret) {
             // None implies that no return value was implemented
             // For convenience, we assume this to mean lets keep going...
@@ -200,7 +200,23 @@ static PyMethodDef TtsMethods[] = {
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
+/*
 PyMODINIT_FUNC initctts(void)
 {
     (void)Py_InitModule("ctts", TtsMethods);
+}
+*/
+
+static struct PyModuleDef ttsModDef =
+{
+    PyModuleDef_HEAD_INIT,
+    "ctts",
+    "",
+    -1,
+    TtsMethods
+};
+
+PyMODINIT_FUNC PyInit_ctts(void)
+{
+    return PyModule_Create(&ttsModDef);
 }

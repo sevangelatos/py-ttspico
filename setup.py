@@ -4,7 +4,7 @@ import os
 from distutils.core import Extension
 from os.path import join
 
-version = '0.3.1'
+version = '0.3.2'
 
 lang_dir = join('picopi', 'pico', 'lang')
 lang_files = [os.path.join(lang_dir, f) for f in 

@@ -3,10 +3,12 @@
 Text to speech based on svox pico tts.
 """
 import ctts
-import os
+from os import path
 
-_LANG_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "languages")
-
+_LANG_DIR = path.join(path.abspath(path.dirname(__file__)), "languages")
+if not path.isdir(_LANG_DIR):
+    from sys import prefix
+    _LANG_DIR = path.join(prefix, "languages")
 
 class TtsEngine(object):
     """
@@ -53,7 +55,7 @@ class TtsEngine(object):
             callback = lambda format, audio, fin: data.append(audio)
         ctts.engine_speak(self.__e, text, callback)
         if data:
-            return ''.join(data)
+            return b''.join(data)
 
     @property
     def rate(self):

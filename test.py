@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 import ctts
 
@@ -9,7 +10,7 @@ def callback(data_format, data, fin):
 
 if __name__ == '__main__':
     language_dir = os.path.join(os.path.dirname(ctts.__file__), 'languages')
-
+    print(language_dir)
     engine = ctts.engine_create(language_dir=language_dir)
     ctts.engine_set_property(engine, "pitch", 100)
 

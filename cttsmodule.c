@@ -1,4 +1,5 @@
 #include <Python.h>
+#include <bytesobject.h>
 #include <assert.h>
 #include "tts_engine.h"
 
@@ -106,6 +107,7 @@ static bool tts_callback(void *user, uint32_t rate, uint32_t format, int channel
 {
     CbContext *cb = (CbContext *)user;
 	bool keep_going = false;
+
     assert(cb);
     assert(cb->py_callback);
     assert(cb->thread_save);
@@ -115,9 +117,9 @@ static bool tts_callback(void *user, uint32_t rate, uint32_t format, int channel
     {
         // handover data to callback
         int r = rate, f = format;
-        char *data = (char *)audio;
         int len = audio_bytes, fin = final;
-        PyObject *ret = PyObject_CallFunction(cb->py_callback, "(iii)y#i", r, f, channels, data, len, fin);
+        PyObject *data = PyBytes_FromStringAndSize((char *)audio, len);
+        PyObject *ret = PyObject_CallFunction(cb->py_callback, "(iii)Oi", r, f, channels, data, fin);
         if (ret) {
             // None implies that no return value was implemented
             // For convenience, we assume this to mean lets keep going...
@@ -200,18 +202,14 @@ static PyMethodDef TtsMethods[] = {
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
-/*
-PyMODINIT_FUNC initctts(void)
-{
-    (void)Py_InitModule("ctts", TtsMethods);
-}
-*/
+
+#if PY_MAJOR_VERSION == 3 // Python 3 only
 
 static struct PyModuleDef ttsModDef =
 {
     PyModuleDef_HEAD_INIT,
     "ctts",
-    "",
+    NULL,
     -1,
     TtsMethods
 };
@@ -220,3 +218,12 @@ PyMODINIT_FUNC PyInit_ctts(void)
 {
     return PyModule_Create(&ttsModDef);
 }
+
+#else // Python 2 
+
+PyMODINIT_FUNC initctts(void)
+{
+    (void)Py_InitModule("ctts", TtsMethods);
+}
+
+#endif
